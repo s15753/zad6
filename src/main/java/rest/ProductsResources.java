@@ -44,11 +44,11 @@ public class ProductsResources {
 	
 	// Get record by id
 	@GET
-	@Path("/{id}")
+	@Path("/id/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getId(@PathParam("id") int id){
+	public Response getById(@PathParam("id") int id){
 		Product result = em.createNamedQuery("product.id", Product.class)
-					.setParameter("product.id", id).getSingleResult();
+					.setParameter("productId", id).getSingleResult();
 		if(result==null){
 			return Response.status(404).build();
 		}
@@ -57,11 +57,11 @@ public class ProductsResources {
 	
 	// Get record by name
 	@GET
-	@Path("/{name}")
+	@Path("/name/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getName(@PathParam("name") String name){
+	public Response getByName(@PathParam("name") int name){
 		Product result = em.createNamedQuery("product.name", Product.class)
-					.setParameter("product.name", name).getSingleResult();
+				.setParameter("productName", name).getSingleResult();
 		if(result==null){
 			return Response.status(404).build();
 		}
@@ -70,18 +70,19 @@ public class ProductsResources {
 	
 	// Get record by category
 	@GET
-	@Path("/{category}")
+	@Path("/category/{category}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Product> getCategory(@PathParam("category") String category){
+	public List<Product> getByCategory(@PathParam("category") String category){
 		return em.createNamedQuery("product.category", Product.class)
-					.setParameter("product.category", category).getResultList();
+					.setParameter("productCategory", category).getResultList();
 	}
 	
 	// Get record by price
 	@GET
 	@Path("/price/{lowerBoundary}-{upperBoundary}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Product> getPrice(@PathParam("lowerBoundary") Double lowerBoundry, @PathParam("upperBoundary") Double upperBoundry){
+	public List<Product> getByPrice(@PathParam("lowerBoundary") Double lowerBoundry,
+								  @PathParam("upperBoundary") Double upperBoundry){
 		return em.createNamedQuery("product.price", Product.class)
 					.setParameter("lowerBoundry", lowerBoundry)
 					.setParameter("upperBoundry", upperBoundry).getResultList();
@@ -93,7 +94,7 @@ public class ProductsResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") int id, Product p){
 		Product result = em.createNamedQuery("product.id", Product.class)
-				.setParameter("product.id", id)
+				.setParameter("productId", id)
 				.getSingleResult();
 		if(result==null){
 			return Response.status(404).build();
@@ -108,9 +109,10 @@ public class ProductsResources {
 	// Delete record by id
 	@DELETE
 	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("id") int id){
 		Product result = em.createNamedQuery("product.id", Product.class)
-				.setParameter("product.id", id). getSingleResult();
+				.setParameter("productId", id). getSingleResult();
 		if(result==null){
 			return Response.status(404).build();
 		}

@@ -12,10 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @NamedQueries({
 		@NamedQuery(name="product.all", query="SELECT p FROM Product p"),
-		@NamedQuery(name="product.id", query="FROM Product p WHERE p.id=:product.id"),
-		@NamedQuery(name="product.name", query="FROM Product p WHERE p.name=:product.name"),
-		@NamedQuery(name="product.category", query="FROM Product p WHERE p.category=:product.category"),
-		@NamedQuery(name="product.price", query="FROM Product p WHERE p.price>:lowerBoundary and p.price<:upperBoundary")
+		@NamedQuery(name="product.id", query="SELECT p FROM Product p WHERE p.id=:productId"),
+		@NamedQuery(name="product.name", query="SELECT p FROM Product p WHERE p.productName=:productName"),
+		@NamedQuery(name="product.category", query="SELECT p FROM Product p WHERE p.category=:productCategory"),
+		@NamedQuery(name="product.price", query="SELECT p FROM Product p WHERE p.price>:lowerBoundary and p.price<:upperBoundary")
 })
 public class Product {
 	
@@ -23,7 +23,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String productName;
-	private Category category;
+	private String category;
 	private Double price;
 	
 	
@@ -39,10 +39,10 @@ public class Product {
 	public void setName(String productName) {
 		this.productName = productName;
 	}
-	public Category getCategory() {
+	public String getCategory() {
 		return category;
 	}
-	public void setCategory(Category category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 	public Double getPrice() {
